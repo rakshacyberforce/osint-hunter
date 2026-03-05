@@ -36,12 +36,14 @@ mkdir -p results
 # -----------------------------
 # EMAIL OSINT
 # -----------------------------
+
+
 if [ "$option" == "1" ]; then
 read -p "Enter email: " email
 
 echo -e "${GREEN}[+] Running Email OSINT${NC}"
 
-python3 -m holehe "$email" | tee results/email_accounts.txt
+holehe "$email" | tee results/email_accounts.txt
 
 fi
 
