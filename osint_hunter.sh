@@ -34,64 +34,81 @@ read -p "Select option: " option
 mkdir -p results
 
 # EMAIL OSINT
-
 if [ "$option" == "1" ]; then
 read -p "Enter email: " email
 
-echo -e "${GREEN}[+] Checking accounts${NC}"
-holehe $email > results/email_accounts.txt
-
-echo -e "${GREEN}[+] Running theHarvester${NC}"
-theHarvester -d $email -b all > results/email_harvest.txt
+if ! command -v holehe &> /dev/null; then
+echo -e "${RED}holehe is not installed${NC}"
+exit
 fi
 
-# DOMAIN INTEL
+echo -e "${GREEN}[+] Checking accounts${NC}"
+holehe "$email" | tee results/email_accounts.txt
+fi
 
+
+# DOMAIN INTELLIGENCE
 if [ "$option" == "2" ]; then
 read -p "Enter domain: " domain
 
 echo -e "${GREEN}[+] Whois Lookup${NC}"
-whois $domain > results/domain_whois.txt
+whois "$domain" | tee results/domain_whois.txt
 
 echo -e "${GREEN}[+] DNS Records${NC}"
-dig $domain > results/domain_dns.txt
+dig "$domain" | tee results/domain_dns.txt
+
+if command -v theHarvester &> /dev/null; then
+echo -e "${GREEN}[+] Running theHarvester${NC}"
+theHarvester -d "$domain" -b all | tee results/domain_harvester.txt
+fi
 fi
 
-# USERNAME OSINT
 
+# USERNAME OSINT
 if [ "$option" == "3" ]; then
 read -p "Enter username: " username
 
-echo -e "${GREEN}[+] Searching username${NC}"
-sherlock $username --timeout 5
+if ! command -v sherlock &> /dev/null; then
+echo -e "${RED}sherlock is not installed${NC}"
+exit
 fi
 
-# PHONE OSINT
+echo -e "${GREEN}[+] Searching username${NC}"
+sherlock "$username" --timeout 5 | tee results/username_search.txt
+fi
 
+
+# PHONE OSINT
 if [ "$option" == "4" ]; then
 read -p "Enter phone number: " phone
 
-phoneinfoga scan -n $phone
+if ! command -v phoneinfoga &> /dev/null; then
+echo -e "${RED}phoneinfoga is not installed${NC}"
+exit
 fi
 
-# IMAGE METADATA COMPARE
+phoneinfoga scan -n "$phone" | tee results/phone_scan.txt
+fi
 
+
+# IMAGE METADATA COMPARE
 if [ "$option" == "5" ]; then
 read -p "Image 1 path: " img1
 read -p "Image 2 path: " img2
 
-exiftool $img1 > results/img1_meta.txt
-exiftool $img2 > results/img2_meta.txt
+exiftool "$img1" > results/img1_meta.txt
+exiftool "$img2" > results/img2_meta.txt
 
+echo -e "${GREEN}[+] Comparing metadata${NC}"
 diff results/img1_meta.txt results/img2_meta.txt
 fi
 
-# AI IMAGE DETECTION
 
+# AI IMAGE DETECTION
 if [ "$option" == "6" ]; then
 read -p "Enter image path: " image
 
-python3 ai_image_check.py $image
+python3 ai_image_check.py "$image"
 fi
 
 echo ""
