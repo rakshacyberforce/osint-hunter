@@ -33,21 +33,22 @@ read -p "Select option: " option
 
 mkdir -p results
 
+# -----------------------------
 # EMAIL OSINT
+# -----------------------------
 if [ "$option" == "1" ]; then
 read -p "Enter email: " email
 
-if ! command -v holehe &> /dev/null; then
-echo -e "${RED}holehe is not installed${NC}"
-exit
-fi
+echo -e "${GREEN}[+] Running Email OSINT${NC}"
 
-echo -e "${GREEN}[+] Checking accounts${NC}"
-holehe "$email" | tee results/email_accounts.txt
+python3 -m holehe "$email" | tee results/email_accounts.txt
+
 fi
 
 
+# -----------------------------
 # DOMAIN INTELLIGENCE
+# -----------------------------
 if [ "$option" == "2" ]; then
 read -p "Enter domain: " domain
 
@@ -57,59 +58,69 @@ whois "$domain" | tee results/domain_whois.txt
 echo -e "${GREEN}[+] DNS Records${NC}"
 dig "$domain" | tee results/domain_dns.txt
 
-if command -v theHarvester &> /dev/null; then
 echo -e "${GREEN}[+] Running theHarvester${NC}"
 theHarvester -d "$domain" -b all | tee results/domain_harvester.txt
-fi
+
 fi
 
 
+# -----------------------------
 # USERNAME OSINT
+# -----------------------------
 if [ "$option" == "3" ]; then
 read -p "Enter username: " username
 
-if ! command -v sherlock &> /dev/null; then
-echo -e "${RED}sherlock is not installed${NC}"
-exit
-fi
-
 echo -e "${GREEN}[+] Searching username${NC}"
+
 sherlock "$username" --timeout 5 | tee results/username_search.txt
+
 fi
 
 
+# -----------------------------
 # PHONE OSINT
+# -----------------------------
 if [ "$option" == "4" ]; then
 read -p "Enter phone number: " phone
 
-if ! command -v phoneinfoga &> /dev/null; then
-echo -e "${RED}phoneinfoga is not installed${NC}"
-exit
-fi
+echo -e "${GREEN}[+] Running Phone OSINT${NC}"
 
 phoneinfoga scan -n "$phone" | tee results/phone_scan.txt
+
 fi
 
 
+# -----------------------------
 # IMAGE METADATA COMPARE
+# -----------------------------
 if [ "$option" == "5" ]; then
 read -p "Image 1 path: " img1
 read -p "Image 2 path: " img2
+
+echo -e "${GREEN}[+] Extracting metadata${NC}"
 
 exiftool "$img1" > results/img1_meta.txt
 exiftool "$img2" > results/img2_meta.txt
 
 echo -e "${GREEN}[+] Comparing metadata${NC}"
+
 diff results/img1_meta.txt results/img2_meta.txt
+
 fi
 
 
+# -----------------------------
 # AI IMAGE DETECTION
+# -----------------------------
 if [ "$option" == "6" ]; then
 read -p "Enter image path: " image
 
+echo -e "${GREEN}[+] Checking AI Generated Image${NC}"
+
 python3 ai_image_check.py "$image"
+
 fi
+
 
 echo ""
 echo -e "${CYAN}Scan Completed${NC}"
