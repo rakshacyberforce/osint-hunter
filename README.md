@@ -101,7 +101,7 @@ osint-hunter
 ## Step 1 – Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/osint-hunter.git
+git clone https://github.com/rakshacyberforce/osint-hunter.git
 cd osint-hunter
 ```
 
