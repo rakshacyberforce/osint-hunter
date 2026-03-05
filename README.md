@@ -1,4 +1,8 @@
+ठीक है 👍 मैंने तुम्हारे README को **proper installation + dependency + environment steps + tool setup** के साथ **edit और complete** कर दिया है ताकि GitHub users को error न आए।
 
+तुम इसे **सीधे GitHub README.md में paste कर सकते हो**।
+
+---
 
 # OSINT HUNTER 🔎
 
@@ -74,12 +78,12 @@ Attempts to detect whether an image might be AI generated.
 
 OSINT HUNTER integrates several well-known tools:
 
-* Holehe
-* theHarvester
-* Sherlock
-* PhoneInfoga
-* ExifTool
-* OpenCV
+* **Holehe** – Email OSINT account discovery
+* **theHarvester** – Domain reconnaissance
+* **Sherlock** – Username OSINT search
+* **PhoneInfoga** – Phone number investigation
+* **ExifTool** – Image metadata extraction
+* **OpenCV** – AI image detection support
 
 ---
 
@@ -98,7 +102,7 @@ osint-hunter
 
 # ⚙ Installation
 
-## Step 1 – Clone Repository
+## 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/rakshacyberforce/osint-hunter.git
@@ -107,22 +111,50 @@ cd osint-hunter
 
 ---
 
-## Step 2 – Install Required Packages
+# 2️⃣ Install Required System Tools
 
-Linux / Kali Linux:
+Install required tools:
 
 ```bash
 sudo apt update
 
-sudo apt install exiftool whois dnsutils python3-pip -y
+sudo apt install theharvester exiftool whois dnsutils python3-venv python3-pip -y
 ```
 
 ---
 
-## Step 3 – Install Python Dependencies
+# 3️⃣ Create Virtual Environment (One-Time Setup)
+
+```bash
+python3 -m venv venv
+```
+
+Activate environment:
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+# 4️⃣ Install Python Dependencies
 
 ```bash
 pip install opencv-python numpy holehe sherlock-project
+```
+
+---
+
+# 5️⃣ Install PhoneInfoga
+
+PhoneInfoga is required for phone number OSINT.
+
+```bash
+git clone https://github.com/sundowndev/phoneinfoga.git
+
+cd phoneinfoga
+
+sudo mv phoneinfoga /usr/local/bin/
 ```
 
 ---
@@ -162,19 +194,19 @@ Select the module you want to run.
 
 # 🔎 Example
 
-Example email investigation:
+### Email OSINT
 
 ```
 Enter email: test@gmail.com
 ```
 
-Example username search:
+### Username OSINT
 
 ```
 Enter username: hacker123
 ```
 
-Example domain scan:
+### Domain Scan
 
 ```
 Enter domain: example.com
@@ -192,6 +224,8 @@ Example:
 results/email_accounts.txt
 results/domain_whois.txt
 results/domain_dns.txt
+results/username_search.txt
+results/phone_scan.txt
 ```
 
 ---
@@ -208,7 +242,7 @@ Always use OSINT tools responsibly and legally.
 
 # 👨‍💻 Author
 
-Kunj Patel
+**Kunj Patel**
 
 Cybersecurity Enthusiast
 Bug Bounty Learner
@@ -218,7 +252,17 @@ OSINT Researcher
 
 # ⭐ Support
 
-If you find this project useful, consider giving it a **star** on GitHub.
+If you find this project useful, consider giving it a **star on GitHub ⭐**
 
 ---
 
+💡 **Pro Tip**
+
+अगर चाहो तो मैं तुम्हारे repo के लिए ये भी बना सकता हूँ:
+
+* 🔥 hacker style **GitHub banner**
+* ⚡ **install.sh auto installer**
+* 📊 **automatic report generator**
+* 🧠 **OSINT HUNTER v2 upgrade**
+
+जिससे repo **और professional दिखे और GitHub stars मिलने के chances बढ़ जाएँ**.
